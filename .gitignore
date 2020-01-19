@@ -3,5 +3,6 @@
 __pycache__
 hgssvenv
 db.sqlite3
+locationhgss.sqlite3
 /static
 .DS_Store

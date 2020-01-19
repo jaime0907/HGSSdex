@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&yg(42ydakvk$h3yub4@d(=v3adibr9hu!oq-t%do7^*@$-mzd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'hgssweb',
 ]
 
 MIDDLEWARE = [
@@ -79,9 +80,11 @@ DATABASES = {
         'NAME': 'jaime0907$locationhgss',
         'USER': 'jaime0907',
         'PASSWORD': 'contraseñasql',
-        'HOST': 'jaime0907.mysql.pythonanywhere-services.com',
+        # 'HOST': 'jaime0907.mysql.pythonanywhere-services.com',
+        'HOST': 'localhost',
     }
 }
+
 
 
 # Password validation

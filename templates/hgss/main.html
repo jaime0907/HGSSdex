@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HGSS Location Guide</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<style type="text/css">
+		#tablepoke {
+			font-family: Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+		}
+		#tablepoke td, #tablepoke th {
+			border: 1px solid #666;
+			padding: 3px;
+			text-align: center;
+			vertical-align: middle;
+		}
+		#tablepoke tr:nth-child(even){background-color: #f2f2f2;}
+		#tablepoke tr:nth-child(odd){background-color: #ffffff;}
+		#tablepoke tr:hover {background-color: #ddd;}
+		#tablepoke th {
+		    padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: center;
+			background-color: #991515;
+			color: white;
+		}
+		#tablepoke td {
+			color: black;
+		}
+		#wrapper {
+			color: white;
+			font-family: Roboto;
+			text-align: center;
+			align-items: center;
+		}
+
+	</style>
+</head>
+<body id="body1" style="background-color: #1c1c1c">
+	<div id="wrapper">
+		<h1 style="font-family: Roboto">Guía localización Heart Gold / Soul Silver</h1>
+		<p id="demo">Franja horaria HGSS:</p>
+		<!--
+		<p id="loginp">
+			<input type="button" id="logionbot" value="Login" onclick="location.href='/login.html';"></input>
+			<input type="button" id="regbot" value="Register" onclick="location.href='/register.html';"></input>
+		</p>
+		-->
+
+		<p>
+			Pokémon:
+			<input id="pokename" name="pokename" type="text"autofocus>
+			Juego:
+			<select id="gameselector">
+				<option value=2>Ambos</option>
+				<option value=0>Heart Gold</option>
+				<option value=1>Soul Silver</option>
+			</select>
+
+		</p>
+		<p>
+			Mostrar localización:
+			<select id="groupselector">
+				<option value=1>Más probable</option>
+				<option value=0>Todas</option>
+			</select>
+			Nº resultados:
+			<input id="limit" name="limit" type="text" value="200">
+		</p>
+
+		<br>
+		<table id="tablepoke" align="center">
+			<tr>
+				<th>Dex</th>
+				<th>Pokémon</th>
+				<th>Lugar</th>
+				<th>Juego</th>
+				<th>Método</th>
+				<th>Nivel</th>
+				<th>Mañ</th>
+				<th>Día</th>
+				<th>Nch</th>
+			</tr>
+			{% for l in locations %}
+				<tr>
+					<td>{{l.dex}}</td>
+					<td>{{l.name}}</td>
+					<td>{{l.place}}</td>
+					<td>{{l.game}}</td>
+					<td>{{l.method}}</td>
+					<td>{{l.levelmin}}-{{l.levelmax}}</td>
+					<td>{{l.probdawn}}</td>
+					<td>{{l.probday}}</td>
+					<td>{{l.probnight}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+
+</body>
+</html>
