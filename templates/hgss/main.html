@@ -1,4 +1,6 @@
 {% load static %}
+{% load hgssweb_extras %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +42,7 @@
 	</style>
 </head>
 <body id="body1" style="background-color: #1c1c1c">
+	{% csrf_token %}
 	<div id="wrapper">
 		<h1 style="font-family: Roboto">Guía localización Heart Gold / Soul Silver</h1>
 		<p id="demo">Franja horaria HGSS:</p>
@@ -86,8 +89,10 @@
 			</tr>
 			{% for l in locations %}
 				<tr>
-					<td>{{l.dex}}</td>
-					<td>{{l.name}}</td>
+					{% with "pokes/"|addstr:l.dex|addstr:"MS.png" as imgurl %}
+					<td><img src="{% static imgurl %}"></td>
+					{% endwith %}
+					<td class="name">{{l.name}}</td>
 					<td>{{l.place}}</td>
 					<td>{{l.game}}</td>
 					<td>{{l.method}}</td>
@@ -101,4 +106,14 @@
 	</div>
 
 </body>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="{% static 'script.js' %}"></script>
+
+<script>
+	$("#pokename").keyup(function () {
+    getPoke();
+  });
+</script>
+
 </html>
