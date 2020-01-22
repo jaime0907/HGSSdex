@@ -46,32 +46,43 @@
 	<div id="wrapper">
 		<h1 style="font-family: Roboto">Guía localización Heart Gold / Soul Silver</h1>
 		<p id="demo">Franja horaria HGSS:</p>
-		<!--
+
+		{% if user.is_authenticated %}
+    <p>Logged in as {{user.username}}
+		<input type="button" id="logoutbot" value="Logout" onclick="location.href='accounts/logout';"></input></p>
+    {% else %}
 		<p id="loginp">
-			<input type="button" id="logionbot" value="Login" onclick="location.href='/login.html';"></input>
+			<input type="button" id="logionbot" value="Login" onclick="location.href='accounts/login';"></input>
 			<input type="button" id="regbot" value="Register" onclick="location.href='/register.html';"></input>
 		</p>
-		-->
+    {% endif %}
+
+
 
 		<p>
 			Pokémon:
-			<input id="pokename" name="pokename" type="text"autofocus>
+			<input id="pokename" name="pokename" type="text"autofocus onkeyup="getPoke()">
 			Juego:
-			<select id="gameselector">
+			<select id="gameselector" onchange="getPoke()">
 				<option value=2>Ambos</option>
 				<option value=0>Heart Gold</option>
 				<option value=1>Soul Silver</option>
-			</select>
+			</select><br>
+			<input type="checkbox" id="gamehg" onchange="getPoke()"> HeartGold<br>
+			<input type="checkbox" id="gamess" onchange="getPoke()"> SoulSilver<br>
+			<input type="checkbox" id="gamed" onchange="getPoke()"> Diamond<br>
+			<input type="checkbox" id="gamepe" onchange="getPoke()"> Pearl<br>
+			<input type="checkbox" id="gamept" onchange="getPoke()"> Platinum<br>
 
 		</p>
 		<p>
 			Mostrar localización:
-			<select id="groupselector">
+			<select id="groupselector" onchange="getPoke()">
 				<option value=1>Más probable</option>
 				<option value=0>Todas</option>
 			</select>
 			Nº resultados:
-			<input id="limit" name="limit" type="text" value="200">
+			<input id="limit" name="limit" type="text" value="50" onkeyup="getPoke()">
 		</p>
 
 		<br>
@@ -110,10 +121,5 @@
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="{% static 'script.js' %}"></script>
 
-<script>
-	$("#pokename").keyup(function () {
-    getPoke();
-  });
-</script>
 
 </html>

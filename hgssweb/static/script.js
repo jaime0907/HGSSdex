@@ -100,18 +100,43 @@ function addRowPoke(poke, lastpoke){
 	place.innerHTML = poke.place;
 
 	var game = row.insertCell(3);
-	switch(poke.game){
-		case 0:
-			game.innerHTML = 'HG';
+	game.innerHTML = '';
+	if(poke.hg == 1 && poke.ss == 1){
+		game.innerHTML = 'HGSS';
+		game.style.background = "linear-gradient(to bottom right, #f2ae00 49.5%, #a6a6a6 50.5%)";
+	}else if(poke.hg == 1){
+		game.innerHTML = 'HG';
+		game.style.background = "#f2ae00";
+	}else if(poke.ss == 1){
+		game.innerHTML = 'SS';
+		game.style.background = "a6a6a6";
+	}
+	if(poke.d == 1){
+		game.innerHTML = game.innerHTML.concat('D');
+	}
+	if(poke.pe == 1){
+		game.innerHTML = game.innerHTML.concat('P');
+	}
+	if(poke.pt == 1){
+		game.innerHTML = game.innerHTML.concat('Pt');
+	}
+	switch(game.innerHTML){
+		case "D":
+			game.style.background = "#041e7d";
+			game.style.color = "white";
 			break;
-		case 1:
-			game.innerHTML = 'SS';
+		case "P":
+			game.style.background = "#6f047d";
+			game.style.color = "white";
 			break;
-		case 2:
-			game.innerHTML = 'HGSS';
+		case "Pt":
+			game.style.background = "#4a0000";
+			game.style.color = "white";
 			break;
-		default:
-			game.innerHTML = '';
+		case "DP":
+		case "DPPt":
+			game.style.background = "linear-gradient(to bottom right, #041e7d 49.5%, #6f047d 50.5%)";
+			game.style.color = "white";
 			break;
 	}
 
@@ -204,8 +229,11 @@ function getPoke(){
 	xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
 	xhr.send(JSON.stringify({
 		poke: document.getElementById("pokename").value,
-		game: document.getElementById("gameselector").value,
-		group: document.getElementById("groupselector").value,
+		hg: document.getElementById("gamehg").checked,
+		ss: document.getElementById("gamess").checked,
+		d: document.getElementById("gamed").checked,
+		pe: document.getElementById("gamepe").checked,
+		pt: document.getElementById("gamept").checked,
 		limit: document.getElementById("limit").value
 	}));
 }

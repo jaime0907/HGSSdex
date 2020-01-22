@@ -1,26 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Locations
+from .models import ForthGen
 from django.db.models.functions import Greatest
+from django.db.models import Q
 import json
 
 
 def main(request):
-    locations = Locations.objects.all()[1:10]
+    locations = ForthGen.objects.all()[1:50]
     return render(request, 'hgss/main.html', {'locations':locations})
 
 def postview(request):
     if request.method == "POST":
         data = json.loads(request.body)
-
-        if data['game'] == '0':
-            games = [0,2]
-        elif data['game'] == '1':
-            games = [1,2]
-        elif data['game'] == '2':
-            games = [0,1,2]
-        else:
-            games = []
 
         limitON = False
         try:
@@ -36,7 +28,19 @@ def postview(request):
         except ValueError:
             nameIsDex = False
 
-        locs = Locations.objects.filter(game__in=games)
+        locs = ForthGen.objects.all()
+        q = Q(hg__gt=4)
+        if data['hg']:
+            q = q | Q(hg__exact=1)
+        if data['ss']:
+            q = q | Q(ss__exact=1)
+        if data['d']:
+            q = q | Q(d__exact=1)
+        if data['pe']:
+            q = q | Q(pe__exact=1)
+        if data['pt']:
+            q = q | Q(pt__exact=1)
+        locs = locs.filter(q)
         if nameIsDex:
             locs = locs.filter(dex__gte=filterdex)
         else:
@@ -45,7 +49,6 @@ def postview(request):
         locs = locs.annotate(maxprob=Greatest('probdawn', 'probday', 'probnight')
                     ).order_by('dex', '-maxprob')
 
-        print(data)
         lastpoke = ''
         pokes = []
         for l in locs.values():
