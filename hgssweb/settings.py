@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'jaime0907$locationhgss',
         'USER': 'jaime0907',
         'PASSWORD': 'contraseñasql',
-        'HOST': 'jaime0907.mysql.pythonanywhere-services.com',
-        # 'HOST': 'localhost',
+        # 'HOST': 'jaime0907.mysql.pythonanywhere-services.com',
+        'HOST': 'localhost',
     }
 }
 
