@@ -1,51 +1,13 @@
+{% extends "base.html" %}
 {% load static %}
 {% load hgssweb_extras %}
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>HGSS Location Guide</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
-	<style type="text/css">
-		#tablepoke {
-			font-family: Arial, Helvetica, sans-serif;
-			border-collapse: collapse;
-		}
-		#tablepoke td, #tablepoke th {
-			border: 1px solid #666;
-			padding: 3px;
-			text-align: center;
-			vertical-align: middle;
-		}
-		#tablepoke tr:nth-child(even){background-color: #f2f2f2;}
-		#tablepoke tr:nth-child(odd){background-color: #ffffff;}
-		#tablepoke tr:hover {background-color: #ddd;}
-		#tablepoke th {
-		    padding-top: 12px;
-			padding-bottom: 12px;
-			text-align: center;
-			background-color: #991515;
-			color: white;
-		}
-		#tablepoke td {
-			color: black;
-		}
-		#wrapper {
-			color: white;
-			font-family: Roboto;
-			text-align: center;
-			align-items: center;
-		}
-
-	</style>
-</head>
-<body id="body1" style="background-color: #1c1c1c">
+{% block content %}
 	{% csrf_token %}
 	<div id="wrapper">
-		<h1 style="font-family: Roboto">Guía localización Heart Gold / Soul Silver</h1>
-		<p id="demo">Franja horaria HGSS:</p>
+		<h1 style="font-family: Roboto">Pokémon Gen 4 Location Guide</h1>
+		<p id="demo">In Game Hour:</p>
 
 		{% if user.is_authenticated %}
     <p>Logged in as {{user.username}}
@@ -53,50 +15,56 @@
     {% else %}
 		<p id="loginp">
 			<input type="button" id="logionbot" value="Login" onclick="location.href='accounts/login';"></input>
-			<input type="button" id="regbot" value="Register" onclick="location.href='/register.html';"></input>
+			<input type="button" id="regbot" value="Register" onclick="location.href='/register';"></input>
 		</p>
     {% endif %}
 
 
 
-		<p>
-			Pokémon:
-			<input id="pokename" name="pokename" type="text"autofocus onkeyup="getPoke()">
-			Juego:
-			<select id="gameselector" onchange="getPoke()">
-				<option value=2>Ambos</option>
-				<option value=0>Heart Gold</option>
-				<option value=1>Soul Silver</option>
-			</select><br>
-			<input type="checkbox" id="gamehg" onchange="getPoke()"> HeartGold<br>
-			<input type="checkbox" id="gamess" onchange="getPoke()"> SoulSilver<br>
-			<input type="checkbox" id="gamed" onchange="getPoke()"> Diamond<br>
-			<input type="checkbox" id="gamepe" onchange="getPoke()"> Pearl<br>
-			<input type="checkbox" id="gamept" onchange="getPoke()"> Platinum<br>
+			<div style="display: inline-block; width=100%;">
+				<div style="text-align:right; float:left;margin: 4px">
+					<div style="margin: 4px">
+						Pokémon:
+						<input id="pokename" name="pokename" type="text"autofocus onkeyup="getPoke()">
+					</div>
 
-		</p>
-		<p>
-			Mostrar localización:
-			<select id="groupselector" onchange="getPoke()">
-				<option value=1>Más probable</option>
-				<option value=0>Todas</option>
-			</select>
-			Nº resultados:
-			<input id="limit" name="limit" type="text" value="50" onkeyup="getPoke()">
-		</p>
+					<div style="margin: 4px">
+					Show location:
+					<select id="groupselector" onchange="getPoke()">
+						<option value=1>Most probable</option>
+						<option value=0>All of them</option>
+					</select>
+					</div>
+
+					<div style="margin: 4px">
+						Number of results:
+						<input id="limit" name="limit" type="text" value="50" size="1" onkeyup="getPoke()">
+					</div>
+				</div>
+
+					<div style="margin: 4px auto; text-align: left; width: 200px;float:right;">
+						<input type="checkbox" id="gamehg" checked="true" onchange="getPoke()"> HeartGold<br>
+						<input type="checkbox" id="gamess" checked="true" onchange="getPoke()"> SoulSilver<br>
+						<input type="checkbox" id="gamed" checked="true" onchange="getPoke()"> Diamond<br>
+						<input type="checkbox" id="gamepe" checked="true" onchange="getPoke()"> Pearl<br>
+						<input type="checkbox" id="gamept" checked="true" onchange="getPoke()"> Platinum<br>
+					</div>
+				</div>
+
+
 
 		<br>
 		<table id="tablepoke" align="center">
 			<tr>
 				<th>Dex</th>
 				<th>Pokémon</th>
-				<th>Lugar</th>
-				<th>Juego</th>
-				<th>Método</th>
-				<th>Nivel</th>
-				<th>Mañ</th>
-				<th>Día</th>
-				<th>Nch</th>
+				<th>Location</th>
+				<th>Game</th>
+				<th>Method</th>
+				<th>Level</th>
+				<th>Mor</th>
+				<th>Day</th>
+				<th>Nig</th>
 			</tr>
 			{% for l in locations %}
 				<tr>
@@ -116,10 +84,9 @@
 		</table>
 	</div>
 
-</body>
+{% endblock %}
 
+{% block scripts %}
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="{% static 'script.js' %}"></script>
-
-
-</html>
+{% endblock %}

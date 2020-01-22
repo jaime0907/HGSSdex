@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import ForthGen
+from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponseRedirect
+from .models import ForthGen, Profile
 from django.db.models.functions import Greatest
 from django.db.models import Q
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 import json
 
 
@@ -29,6 +32,14 @@ def postview(request):
             nameIsDex = False
 
         locs = ForthGen.objects.all()
+        if request.user.is_authenticated:
+            p = Profile.objects.get(user=request.user)
+            pokedex = p.pokedex.split("##")
+            listapoke = []
+            for poke in pokedex:
+                listapoke.append(int(poke.replace("#", "")))
+            locs = locs.filter(dex__in=listapoke)
+
         q = Q(hg__gt=4)
         if data['hg']:
             q = q | Q(hg__exact=1)
@@ -48,14 +59,44 @@ def postview(request):
 
         locs = locs.annotate(maxprob=Greatest('probdawn', 'probday', 'probnight')
                     ).order_by('dex', '-maxprob')
-
-        lastpoke = ''
-        pokes = []
-        for l in locs.values():
-            if lastpoke != l['name']:
-                pokes.append(l)
-                lastpoke = l['name']
+        if data['selector'] == '1':
+            lastpoke = ''
+            pokes = []
+            for l in locs.values():
+                if lastpoke != l['name']:
+                    pokes.append(l)
+                    lastpoke = l['name']
+        else:
+            pokes = list(locs.values())
         if limitON:
             pokes = pokes[0:limit]
 
         return JsonResponse(pokes, safe=False)
+
+def catchpoke(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        data = json.loads(request.body)
+        p = Profile.objects.get(user=request.user)
+        pokedex = p.pokedex
+        p.pokedex = pokedex.split("#" + str(data['dex']) + "#")[0] + pokedex.split("#" + str(data['dex']) + "#")[1]
+        p.save()
+    return HttpResponseRedirect('/')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            dexdefault = ""
+            for i in range(1, 494):
+                dexdefault += "#" + str(i) + "#"
+            p = Profile(user=User.objects.get(username__exact=form.cleaned_data.get('username')), pokedex=dexdefault)
+            p.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})

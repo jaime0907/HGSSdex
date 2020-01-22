@@ -6,6 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class ForthGen(models.Model):
     place = models.TextField(blank=True, null=True)
@@ -58,10 +61,6 @@ class Locations(models.Model):
         db_table = 'locations'
 
 
-class Users(models.Model):
-    username = models.CharField(max_length=45, blank=True, null=True)
-    password = models.CharField(max_length=60, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'users'
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    pokedex = models.CharField(max_length=3000, blank=True, null=True)

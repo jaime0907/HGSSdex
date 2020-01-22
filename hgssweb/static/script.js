@@ -63,6 +63,19 @@ function getHora(){
 	document.getElementById("demo").innerHTML = 'Franja horaria HGSS: ' + ht + ' ' + remain;
 }
 
+function catchPoke(dex){
+	var xhr = new XMLHttpRequest();
+	xhr.onload = function(){
+			getPoke();
+	};
+	xhr.open("POST", "/catchpoke", true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	xhr.send(JSON.stringify({
+		dex: dex
+	}));
+}
+
 function addRow(){
 	var table = document.getElementById("tablepoke");
 	var rows = 1;
@@ -95,6 +108,14 @@ function addRowPoke(poke, lastpoke){
 	var name = row.insertCell(1);
 	name.innerHTML = '<img src=\"static/pokes/' + FormatNumberLength(poke.dex, 3) + 'MS.png\" style="vertical-align:middle"> ' + poke.name;
 	name.style.textAlign = "left";
+	name.style.cursor = "pointer";
+	name.onmouseover = function(){
+		this.style.background = "#e3a90b";
+	}
+	name.onmouseleave = function(){
+		this.style.background = '';
+	}
+	name.onclick = function(){catchPoke(poke.dex)};
 
 	var place = row.insertCell(2);
 	place.innerHTML = poke.place;
@@ -109,7 +130,7 @@ function addRowPoke(poke, lastpoke){
 		game.style.background = "#f2ae00";
 	}else if(poke.ss == 1){
 		game.innerHTML = 'SS';
-		game.style.background = "a6a6a6";
+		game.style.background = "#a6a6a6";
 	}
 	if(poke.d == 1){
 		game.innerHTML = game.innerHTML.concat('D');
@@ -234,12 +255,14 @@ function getPoke(){
 		d: document.getElementById("gamed").checked,
 		pe: document.getElementById("gamepe").checked,
 		pt: document.getElementById("gamept").checked,
-		limit: document.getElementById("limit").value
+		limit: document.getElementById("limit").value,
+		selector: document.getElementById("groupselector").value
 	}));
 }
 
 
 function startScripts(){
+	getHora();
 	getPoke();
 }
 

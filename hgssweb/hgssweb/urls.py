@@ -20,5 +20,7 @@ from . import views
 urlpatterns = [
     path('', views.main, name='main'),
     path('post', views.postview, name='postview'),
+    path('catchpoke', views.catchpoke, name='catchpoke'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('register', views.register, name='register'),
 ]
