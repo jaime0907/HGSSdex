@@ -7,19 +7,19 @@ function getHora(){
 	var h = d.getHours();
 	var ht = '';
 	if(h >= 4 && h < 10){
-		ht = 'Mañana';
+		ht = 'Morning';
 		franjahoraria = 0;
 		d2.setHours(10);
 		d2.setMinutes(0);
 		d2.setSeconds(0);
 	}else if(h >= 10 && h < 20){
-		ht = 'Día';
+		ht = 'Day';
 		franjahoraria = 1;
 		d2.setHours(20);
 		d2.setMinutes(0);
 		d2.setSeconds(0);
 	}else{
-		ht = 'Noche';
+		ht = 'Night';
 		franjahoraria = 2;
 		if(h > 5){
 			d2.setDate(d2.getDate() + 1);
@@ -34,33 +34,37 @@ function getHora(){
 	var mint = Math.floor(min);
 
 	var plural = 1;
-	var remain = '(';
+	var remain = '';
 	if(hourst == 1)
 	{
-		remain += hourst + ' hora';
+		remain += hourst + ' hour';
 		plural = 0;
 	}else if(hourst != 0)
 	{
-		remain += hourst + ' horas';
+		remain += hourst + ' hours';
 		plural = 1;
 	}
 
-	if(hourst != 0) remain += ' y ';
+	if(hourst != 0) remain += ' and ';
 	if(mint == 1)
 	{
-		remain += mint + ' minuto';
+		remain += mint + ' minute';
 		plural = 0;
 	}else if(mint != 0)
 	{
-		remain += mint + ' minutos';
+		remain += mint + ' minutes';
 		plural = 1;
 	}
-	remain += ' restante';
-	if(plural == 1){
-		remain += 's';
+	remain += ' until ';
+	if(ht == "Morning"){
+		remain += 'Day';
+	}else if(ht == "Day"){
+		remain += 'Night';
+	}else{
+		remain += 'Morning';
 	}
 	remain += ')';
-	document.getElementById("demo").innerHTML = 'Franja horaria HGSS: ' + ht + ' ' + remain;
+	document.getElementById("demo").innerHTML = 'Current time: ' + d.getHours() + ':' + d.getMinutes() + ' ('+ ht + ', ' + remain;
 }
 
 function catchPoke(dex){
@@ -119,6 +123,9 @@ function addRowPoke(poke, lastpoke){
 
 	var place = row.insertCell(2);
 	place.innerHTML = poke.place;
+	if(poke.method == "Stone"){
+		place.innerHTML += ' <img src=\"static/stones/' + poke.place.substring(6) + '.png\" style="vertical-align:middle">'
+	}
 
 	var game = row.insertCell(3);
 	game.innerHTML = '';
@@ -131,6 +138,10 @@ function addRowPoke(poke, lastpoke){
 	}else if(poke.ss == 1){
 		game.innerHTML = 'SS';
 		game.style.background = "#a6a6a6";
+	}else if(poke.hg == 2){
+		game.innerHTML = 'Evo';
+		game.style.background = "#239641";
+		game.style.color = "white"
 	}
 	if(poke.d == 1){
 		game.innerHTML = game.innerHTML.concat('D');

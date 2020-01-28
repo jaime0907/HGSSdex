@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect
-from .models import ForthGen, Profile
+from .models import ForthGen, Profile, Evos
 from django.db.models.functions import Greatest
 from django.db.models import Q
 from django.contrib.auth import login, authenticate
@@ -32,6 +32,7 @@ def postview(request):
             nameIsDex = False
 
         locs = ForthGen.objects.all()
+        evos = Evos.objects.all()
         if request.user.is_authenticated:
             p = Profile.objects.get(user=request.user)
             pokedex = p.pokedex.split("##")
@@ -39,6 +40,9 @@ def postview(request):
             for poke in pokedex:
                 listapoke.append(int(poke.replace("#", "")))
             locs = locs.filter(dex__in=listapoke)
+            evos = evos.filter(dex2__in=listapoke)
+        evos = evos.exclude(dex1__exact=0)
+        evos = evos.exclude(dex2__exact=0)
 
         q = Q(hg__gt=4)
         if data['hg']:
@@ -54,8 +58,10 @@ def postview(request):
         locs = locs.filter(q)
         if nameIsDex:
             locs = locs.filter(dex__gte=filterdex)
+            evos = evos.filter(dex2__gte=filterdex)
         else:
             locs = locs.filter(name__istartswith=data['poke'])
+            evos = evos.filter(poke2__istartswith=data['poke'])
 
         locs = locs.annotate(maxprob=Greatest('probdawn', 'probday', 'probnight')
                     ).order_by('dex', '-maxprob')
@@ -68,9 +74,32 @@ def postview(request):
                     lastpoke = l['name']
         else:
             pokes = list(locs.values())
+
         if limitON:
             pokes = pokes[0:limit]
+            if(len(pokes) > 0):
+                evos = evos.filter(dex2__lte=pokes[-1]["dex"])
+        if True:
+            evolist=list(evos.values())
+            for e in evolist:
+                evotext = e["method"] + " " + e["level"]
+                if e["method"] == "Level":
+                    evotext = "Lv." + e["level"]
+                if e["method"] == "One level":
+                    evotext = "Level up " + e["level"]
+                if e["method"] == "Stone":
+                    evotext = "Use a " + e["level"]
+                if e["method"] == "Friendship":
+                    evotext = "Level up with high friendship " + e["level"]
+                if e["method"] == "Transfer":
+                    if e["level"] != "":
+                        evotext = "Transfer while holding a " + e["level"]
+                    else:
+                        evotext = "Transfer"
+                pokes.append({"dex":int(e["dex2"]), "name":e["poke2"], "place":evotext, "method":e["method"], "hg":2, "levelmin":"",
+                "levelmax":"", "probdawn":-1, "probday":-1, "probnight":-1})
 
+            pokes = sorted(pokes, key = lambda i: i["dex"])
         return JsonResponse(pokes, safe=False)
 
 def catchpoke(request):

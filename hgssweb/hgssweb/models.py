@@ -32,6 +32,18 @@ class ForthGen(models.Model):
         managed = False
         db_table = '4gen'
 
+class Evos(models.Model):
+    poke1 = models.CharField(max_length=50, blank=True, null=True)
+    poke2 = models.CharField(max_length=50, blank=True, null=True)
+    method = models.CharField(max_length=50, blank=True, null=True)
+    level = models.CharField(max_length=50, blank=True, null=True)
+    dex1 = models.CharField(max_length=45, blank=True, null=True)
+    dex2 = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'evos'
+
 
 class Images(models.Model):
     id = models.IntegerField(primary_key=True)
