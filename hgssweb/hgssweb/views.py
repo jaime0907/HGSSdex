@@ -128,3 +128,9 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request, 'hgss/profile.html')
+    else:
+        return HttpResponseRedirect('/accounts/login')
