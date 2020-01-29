@@ -64,7 +64,7 @@ function getHora(){
 		remain += 'Morning';
 	}
 	remain += ')';
-	document.getElementById("demo").innerHTML = 'Current time: ' + d.getHours() + ':' + d.getMinutes() + ' ('+ ht + ', ' + remain;
+	document.getElementById("demo").innerHTML = 'Current time: ' + FormatNumberLength(d.getHours(), 2) + ':' + FormatNumberLength(d.getMinutes(), 2) + ' ('+ ht + ', ' + remain;
 }
 
 function catchPoke(dex){
@@ -174,6 +174,9 @@ function addRowPoke(poke, lastpoke){
 
 	var method = row.insertCell(4);
 	method.innerHTML = poke.method;
+	if(poke.method == "R" || poke.method == "S" || poke.method == "FR" || poke.method == "LG" || poke.method == "E" || poke.method == "FRLGE" || poke.method == "Any"){
+		method.innerHTML = ' <img src=\"static/gba/' + poke.method + '.png\" style="vertical-align:middle"> Slot 2'
+	}
 
 	var level = row.insertCell(5);
 	if(poke.levelmax == poke.levelmin){
@@ -266,6 +269,7 @@ function getPoke(){
 		d: document.getElementById("gamed").checked,
 		pe: document.getElementById("gamepe").checked,
 		pt: document.getElementById("gamept").checked,
+		evo: document.getElementById("gameevo").checked,
 		limit: document.getElementById("limit").value,
 		selector: document.getElementById("groupselector").value
 	}));

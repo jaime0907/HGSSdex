@@ -7,3 +7,4 @@ locationhgss.sqlite3
 /static
 .DS_Store
 UnaTablaParaDominarlasATodas.py
+venv2

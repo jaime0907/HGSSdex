@@ -10,8 +10,7 @@ import json
 
 
 def main(request):
-    locations = ForthGen.objects.all()[1:50]
-    return render(request, 'hgss/main.html', {'locations':locations})
+    return render(request, 'hgss/main.html')
 
 def postview(request):
     if request.method == "POST":
@@ -79,7 +78,7 @@ def postview(request):
             pokes = pokes[0:limit]
             if(len(pokes) > 0):
                 evos = evos.filter(dex2__lte=pokes[-1]["dex"])
-        if True:
+        if data['evo']:
             evolist=list(evos.values())
             for e in evolist:
                 evotext = e["method"] + " " + e["level"]
