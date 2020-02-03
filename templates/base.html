@@ -25,7 +25,7 @@
 		#tablepoke tr:nth-child(odd){background-color: #ffffff;}
 		#tablepoke tr:hover {background-color: #ddd;}
 		#tablepoke th {
-		    padding-top: 12px;
+		  padding-top: 12px;
 			padding-bottom: 12px;
 			text-align: center;
 			background-color: #991515;
@@ -39,12 +39,138 @@
 			font-family: Roboto;
 			text-align: center;
 			align-items: center;
+			display: grid;
+			grid-template-columns: auto auto auto;
+			grid-template-areas: ". centergrid ."
+		}
+		#centergrid {
+			grid-area: centergrid;
+			display: grid;
+			grid-template-columns: 50% 50%;
+			grid-template-areas: "header header"
+													 "filter selector"
+													 "searchbox searchbox"
+													 "main main"
+		}
+		#header {
+			grid-area: header;
+		}
+		#filter {
+			grid-area: filter;
+			display: grid;
+			grid-template-columns: auto;
+			grid-template-areas: "location" "nresults";
+		}
+		#location {
+			grid-area: location;
+			align-self: center;
+		}
+		#nresults {
+			grid-area: nresults;
+			align-self: center;
+		}
+		#selector {
+			grid-area: selector;
+			margin: 4px 0;
+			width:200px;
+		}
+		#searchbox {
+			grid-area: searchbox;
+			margin:10px;
+		}
+		#pokename {
+			width:50%;
+		}
+		#main {
+			grid-area: main;
+		}
+
+		.selectorgrid {
+			display: grid;
+			grid-template-columns: 33.33% 33.33% 33.34%;
+			grid-template-areas: "hgss hgss hgss"
+													 "d p pt"
+													 "evo evo evo";
+
+		}
+		#hgss {
+			grid-area: hgss;
+			display: grid;
+			grid-template-columns: 50% 50%;
+			grid-template-areas: "hg ss";
+
+		}
+		input.chk-btn {
+		  display: none;
+		}
+		input.chk-btn + label {
+		  border: 1px solid grey;
+		  background: #1c1c1c;
+			color: #FFF;
+		  width: 100%;
+			height: 100%;
+		  cursor: pointer;
+			margin-bottom: 0;
+			text-align: center;
+			padding:8px;
+		}
+		input.chk-btn:not(:checked) + label:hover {
+		  box-shadow: 0px 1px 3px black;
+		}
+		#hg input.chk-btn + label:active,
+		#hg input.chk-btn:checked + label {
+		  background: rgb(242, 174, 0);
+			color: #FFF;
+		}
+		#ss input.chk-btn + label:active,
+		#ss input.chk-btn:checked + label {
+		  background: rgb(166, 166, 166);
+			color: #FFF;
+		}
+		#d input.chk-btn + label:active,
+		#d input.chk-btn:checked + label {
+		  background: rgb(4, 30, 125);
+			color: #FFF;
+		}
+		#p input.chk-btn + label:active,
+		#p input.chk-btn:checked + label {
+		  background: rgb(111, 4, 125);
+			color: #FFF;
+		}
+		#pt input.chk-btn + label:active,
+		#pt input.chk-btn:checked + label {
+		  background: rgb(74, 0, 0);
+			color: #FFF;
+		}
+		#evo input.chk-btn + label:active,
+		#evo input.chk-btn:checked + label {
+		  background: rgb(35, 150, 65);
+			color: #FFF;
+		}
+		#hg {
+			grid-area: hg;
+		}
+		#ss {
+			grid-area: ss;
+		}
+		#d {
+			grid-area: d;
+		}
+		#p {
+			grid-area: p;
+		}
+		#pt {
+			grid-area: pt;
+		}
+		#evo {
+			grid-area: evo;
 		}
 		#pokename, #groupselector, #limit, #logoutbot {
 
 			border-radius: 4px;
 			text-align: center;
 		}
+
 		{% block css %}
 		{% endblock %}
 	</style>
