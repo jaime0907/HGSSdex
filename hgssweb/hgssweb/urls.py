@@ -16,11 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from .forms import UserLoginForm
+from django.contrib.auth import views as authviews
 
 urlpatterns = [
     path('', views.main, name='main'),
     path('post', views.postview, name='postview'),
     path('catchpoke', views.catchpoke, name='catchpoke'),
+    path('accounts/login', authviews.LoginView.as_view(
+            template_name="registration/login.html",
+            authentication_form=UserLoginForm
+            ),
+        name='login'
+        ),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register, name='register'),
     path('profile', views.profile, name='profile'),
