@@ -2,13 +2,10 @@
 {% load static %}
 
 {%block content%}
-<div id="wrapper">
-  <br>
   <h1>{{user.username}}</h1>
   <form action="/profile">
     <input type="text" name="poketext" value="">
     <input type="submit" value="Submit">
   </form>
 
-</div>
 {% endblock %}

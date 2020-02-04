@@ -5,108 +5,92 @@
 
 {% block content %}
 	{% csrf_token %}
-	<div id="wrapper">
-	<div id="centergrid">
-		<br>
-		<div id="header">
-			<h1 style="font-family: Roboto">Pokémon Gen 4 Location Guide</h1>
-			<p id="demo">In Game Hour:</p>
 
+		<div id="menubar">
+			<div id="hg">
+				<input type="checkbox" id="gamehg" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gamehg">HG</label>
+			</div>
+			<div id="ss">
+				<input type="checkbox" id="gamess" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gamess">SS</label>
+			</div>
+			<div id="d">
+				<input type="checkbox" id="gamed" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gamed">D</label>
+			</div>
+			<div id="p">
+				<input type="checkbox" id="gamepe" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gamepe">P</label>
+			</div>
+			<div id="pt">
+				<input type="checkbox" id="gamept" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gamept">Pt</label>
+			</div>
+			<div id="evo">
+				<input type="checkbox" id="gameevo" onchange="getPoke()" checked="true" class="chk-btn">
+				<label for="gameevo">Evo</label>
+			</div>
 			{% if user.is_authenticated %}
-	    <p>Logged in as {{user.username}}
-			<input type="button" id="logoutbot" value="Logout" onclick="location.href='accounts/logout';"></input></p>
-	    {% else %}
-			<p id="loginp">
-				<input type="button" id="logionbot" value="Login" onclick="location.href='accounts/login';"></input>
-				<input type="button" id="regbot" value="Register" onclick="location.href='/register';"></input>
-			</p>
-	    {% endif %}
+				<a href="/profile">{{user.username}}</a>
+				<a href="accounts/logout">Logout</a>
+			{% else %}
+				<a href="accounts/login">Login</a>
+				<a href="accounts/register">Register</a>
+			{% endif %}
+			<a id="demo" style="display:none;">In Game Hour:</a>
 		</div>
+		<div id="centergrid">
+			<div id="filter" style="text-align:right; float:left;margin: 4px">
+				<div id="location" style="margin: 4px">
+					Show location:
+					<select id="groupselector" onchange="getPoke()">
+						<option value=1>Most probable</option>
+						<option value=0>All of them</option>
+					</select>
+				</div>
 
-
-		<div id="filter" style="text-align:right; float:left;margin: 4px">
-			<div id="location" style="margin: 4px">
-				Show location:
-				<select id="groupselector" onchange="getPoke()">
-					<option value=1>Most probable</option>
-					<option value=0>All of them</option>
-				</select>
+				<div id="nresults" style="margin: 4px">
+					Number of results:
+					<input id="limit" name="limit" type="text" value="50" size="1" onkeyup="getPoke()">
+				</div>
 			</div>
 
-			<div id="nresults" style="margin: 4px">
-				Number of results:
-				<input id="limit" name="limit" type="text" value="50" size="1" onkeyup="getPoke()">
+			<div id="searchbox">
+				<input id="pokename" name="pokename" type="text" placeholder="Filter by name or dex number..." autofocus onkeyup="getPoke()">
 			</div>
-		</div>
 
-
-		<div id="selector">
-			<div class="selectorgrid">
-				<div id="hgss">
-					<div id="hg">
-						<input type="checkbox" id="gamehg" onchange="getPoke()" checked="true" class="chk-btn">
-						<label for="gamehg">HG</label>
-					</div>
-					<div id="ss">
-						<input type="checkbox" id="gamess" onchange="getPoke()" checked="true" class="chk-btn">
-						<label for="gamess">SS</label>
-					</div>
-				</div>
-				<div id="d">
-					<input type="checkbox" id="gamed" onchange="getPoke()" checked="true" class="chk-btn">
-					<label for="gamed">D</label>
-				</div>
-				<div id="p">
-					<input type="checkbox" id="gamepe" onchange="getPoke()" checked="true" class="chk-btn">
-					<label for="gamepe">P</label>
-				</div>
-				<div id="pt">
-					<input type="checkbox" id="gamept" onchange="getPoke()" checked="true" class="chk-btn">
-					<label for="gamept">Pt</label>
-				</div>
-				<div id="evo">
-					<input type="checkbox" id="gameevo" onchange="getPoke()" checked="true" class="chk-btn">
-					<label for="gameevo">Evolutions</label>
-				</div>
-			</div>
-		</div>
-
-		<div id="searchbox">
-			<input id="pokename" name="pokename" type="text" placeholder="Filter by name or dex number..." autofocus onkeyup="getPoke()">
-		</div>
-
-		<div id="main">
-			<table id="tablepoke" align="center">
-				<tr>
-					<th>Dex</th>
-					<th>Pokémon</th>
-					<th>Location</th>
-					<th>Game</th>
-					<th>Method</th>
-					<th>Level</th>
-					<th>Mor</th>
-					<th>Day</th>
-					<th>Nig</th>
-				</tr>
-				{% for l in locations %}
+			<div id="main">
+				<table id="tablepoke" align="center">
 					<tr>
-						{% with "pokes/"|addstr:l.dex|addstr:"MS.png" as imgurl %}
-						<td><img src="{% static imgurl %}"></td>
-						{% endwith %}
-						<td class="name">{{l.name}}</td>
-						<td>{{l.place}}</td>
-						<td>{{l.game}}</td>
-						<td>{{l.method}}</td>
-						<td>{{l.levelmin}}-{{l.levelmax}}</td>
-						<td>{{l.probdawn}}</td>
-						<td>{{l.probday}}</td>
-						<td>{{l.probnight}}</td>
+						<th>Dex</th>
+						<th>Pokémon</th>
+						<th>Location</th>
+						<th>Game</th>
+						<th>Method</th>
+						<th>Level</th>
+						<th>Mor</th>
+						<th>Day</th>
+						<th>Nig</th>
 					</tr>
-				{% endfor %}
-			</table>
+					{% for l in locations %}
+						<tr>
+							{% with "pokes/"|addstr:l.dex|addstr:"MS.png" as imgurl %}
+							<td><img src="{% static imgurl %}"></td>
+							{% endwith %}
+							<td class="name">{{l.name}}</td>
+							<td>{{l.place}}</td>
+							<td>{{l.game}}</td>
+							<td>{{l.method}}</td>
+							<td>{{l.levelmin}}-{{l.levelmax}}</td>
+							<td>{{l.probdawn}}</td>
+							<td>{{l.probday}}</td>
+							<td>{{l.probnight}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
 		</div>
-	</div>
-	</div>
 
 {% endblock %}
 
