@@ -259,6 +259,8 @@ function getPoke(){
 			lastpoke = data[i].dex;
 		}
 	}
+
+
 	xhr.open("POST", "/post", true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));

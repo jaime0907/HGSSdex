@@ -7,44 +7,57 @@
 	{% csrf_token %}
 
 		<div id="menubar">
+			<div class="dropdown">
+			  <button class="dropbtn" id="locationbot" onclick="myFunction()">Show Location
+			  </button>
+			  <div class="dropdown-content" id="myDropdown">
+			    <a href="#" onclick="allLocations()">Show all locations</a>
+			    <a href="#" onclick="mostProbable()">Show only most probable</a>
+			  </div>
+			</div>
+			
 			<div id="hg">
 				<input type="checkbox" id="gamehg" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gamehg">HG</label>
+				<label for="gamehg" class="menubaritem">HG</label>
 			</div>
 			<div id="ss">
 				<input type="checkbox" id="gamess" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gamess">SS</label>
+				<label for="gamess" class="menubaritem">SS</label>
 			</div>
 			<div id="d">
 				<input type="checkbox" id="gamed" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gamed">D</label>
+				<label for="gamed" class="menubaritem">D</label>
 			</div>
 			<div id="p">
 				<input type="checkbox" id="gamepe" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gamepe">P</label>
+				<label for="gamepe" class="menubaritem">P</label>
 			</div>
 			<div id="pt">
 				<input type="checkbox" id="gamept" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gamept">Pt</label>
+				<label for="gamept" class="menubaritem">Pt</label>
 			</div>
 			<div id="evo">
 				<input type="checkbox" id="gameevo" onchange="getPoke()" checked="true" class="chk-btn">
-				<label for="gameevo">Evo</label>
+				<label for="gameevo" class="menubaritem">Evo</label>
 			</div>
 			{% if user.is_authenticated %}
-				<a href="/profile">{{user.username}}</a>
-				<a href="accounts/logout">Logout</a>
+				<a href="/profile" class="menubaritem">{{user.username}}</a>
+				<a href="accounts/logout" class="menubaritem">Logout</a>
 			{% else %}
-				<a href="accounts/login">Login</a>
-				<a href="accounts/register">Register</a>
+				<a href="accounts/login" class="menubaritem">Login</a>
+				<a href="accounts/register" class="menubaritem">Register</a>
 			{% endif %}
+
+
+
 			<a id="demo" style="display:none;">In Game Hour:</a>
 		</div>
+
 		<div id="centergrid">
 			<div id="filter" style="text-align:right; float:left;margin: 4px">
-				<div id="location" style="margin: 4px">
+				<div id="location" style="margin: 4px; display:none;">
 					Show location:
-					<select id="groupselector" onchange="getPoke()">
+					<select id="groupselector"  onchange="getPoke()">
 						<option value=1>Most probable</option>
 						<option value=0>All of them</option>
 					</select>
