@@ -8,14 +8,24 @@
 
 		<div id="menubar">
 			<div class="dropdown">
-			  <button class="dropbtn" id="locationbot" onclick="myFunction()">Show Location
+			  <button class="dropbtn" id="locationbot" onclick="dropdownSelector()">Show Location
 			  </button>
 			  <div class="dropdown-content" id="myDropdown">
 			    <a href="#" onclick="allLocations()">Show all locations</a>
 			    <a href="#" onclick="mostProbable()">Show only most probable</a>
 			  </div>
 			</div>
-			
+
+			<div class="dropdown">
+			  <button class="dropbtn" id="numbot" onclick="dropdownNum()">Nº Results
+			  </button>
+			  <div class="dropdown-content" id="myDropdownNum">
+			    <a href="#" onclick="limit10()">Show 10 results</a>
+			    <a href="#" onclick="limit50()">Show 50 results</a>
+			    <a href="#" onclick="limit100()">Show 100 results</a>
+			  </div>
+			</div>
+
 			<div id="hg">
 				<input type="checkbox" id="gamehg" onchange="getPoke()" checked="true" class="chk-btn">
 				<label for="gamehg" class="menubaritem">HG</label>
@@ -63,7 +73,7 @@
 					</select>
 				</div>
 
-				<div id="nresults" style="margin: 4px">
+				<div id="nresults" style="margin: 4px; display:none;">
 					Number of results:
 					<input id="limit" name="limit" type="text" value="50" size="1" onkeyup="getPoke()">
 				</div>

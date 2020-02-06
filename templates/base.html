@@ -241,21 +241,6 @@
 			padding:10px;
 		}
 
-		.navbar {
-		  overflow: hidden;
-		  background-color: #333;
-		  font-family: Arial, Helvetica, sans-serif;
-		}
-
-		.navbar a {
-		  float: left;
-		  font-size: 16px;
-		  color: white;
-		  text-align: center;
-		  padding: 14px 16px;
-		  text-decoration: none;
-		}
-
 		.dropdown {
 			display:inline-block;
 		  overflow: visible;
@@ -267,16 +252,28 @@
 		  outline: none;
 		  color: white;
 		  padding: 10px;
-		  background-color: inherit;
 		  font-family: inherit;
 		  margin: 0;
 
 			border: solid grey;
 			border-width:  0px 1px 0px 1px;
 		}
+		#locationbot {
+		  background-color: inherit;
+		}
 
-		.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
-		  background-color: red;
+		#locationbot:hover {
+		  background-color: #991515;
+			transition: all .1s ease-in-out;
+		}
+
+		#numbot {
+		  background-color: inherit;
+		}
+
+		#numbot:hover {
+		  background-color: #991515;
+			transition: all .1s ease-in-out;
 		}
 
 		.dropdown-content {
@@ -323,16 +320,24 @@
 {% block scripts %}
 {% endblock %}
 <script>
-	function myFunction() {
+	function dropdownSelector() {
 	  document.getElementById("myDropdown").classList.toggle("show");
+	}
+
+	function dropdownNum() {
+	  document.getElementById("myDropdownNum").classList.toggle("show");
 	}
 
 	// Close the dropdown if the user clicks outside of it
 	window.onclick = function(e) {
 	  if (!e.target.matches('.dropbtn')) {
-	  var myDropdown = document.getElementById("myDropdown");
+		  var myDropdown = document.getElementById("myDropdown");
 	    if (myDropdown.classList.contains('show')) {
 	      myDropdown.classList.remove('show');
+	    }
+			var myDropdownNum = document.getElementById("myDropdownNum");
+	    if (myDropdownNum.classList.contains('show')) {
+	      myDropdownNum.classList.remove('show');
 	    }
 	  }
 	}
@@ -347,6 +352,22 @@
 		document.getElementById("locationbot").innerHTML = "Most probable";
 		getPoke();
 	}
+
+	function limit10(){
+		document.getElementById("limit").value = 10;
+		document.getElementById("numbot").innerHTML = "10 results";
+		getPoke();
+	}
+	function limit50(){
+		document.getElementById("limit").value = 50;
+		document.getElementById("numbot").innerHTML = "50 results";
+		getPoke();
+	}
+	function limit100(){
+		document.getElementById("limit").value = 100;
+		document.getElementById("numbot").innerHTML = "100 results";
+		getPoke();
+	}
 	window.onload = function() {
 		var selector = document.getElementById("groupselector").value;
 		if(selector == 1){
@@ -354,6 +375,16 @@
 		}else{
 			allLocations();
 		}
+		var limit = document.getElementById("limit").value;
+		if(limit == 10){
+			limit10();
+		}else if(limit == 100){
+			limit100();
+		}else{
+			limit50();
+		}
 	}
+
+
 </script>
 </html>
