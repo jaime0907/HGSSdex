@@ -14,7 +14,7 @@
 	<link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
 	<style type="text/css">
 		#tablepoke {
-			font-family: Arial, Helvetica, sans-serif;
+			font-family: "Quicksand", Arial, Helvetica, sans-serif;
 			border-collapse: collapse;
 			transition: all .1s ease-in-out;
 		}
@@ -43,7 +43,7 @@
 		#wrapper {
 			color: white;
 			margin: 8px 0px;
-			font-family: Roboto;
+			font-family: "Quicksand", sans-serif;
 			text-align: center;
 			align-items: center;
 
@@ -52,9 +52,8 @@
 			grid-area: centergrid;
 			display: grid;
 			grid-template-columns: 50% 50%;
-			grid-template-rows: auto 44px auto;
-			grid-template-areas: "filter selector"
-													 "searchbox searchbox"
+			grid-template-rows: auto auto;
+			grid-template-areas: "searchbox searchbox"
 													 "main main"
 		}
 		#header {
@@ -115,10 +114,13 @@
 		}
 		#searchbox {
 			grid-area: searchbox;
-			margin:10px;
+			margin:14px;
 		}
 		#pokename {
 			width:50%;
+			height:40px;
+			font-family:"Quicksand", sans-serif;
+			font-size:1.3rem;
 			border: 2px solid #c0ccd4;
 			background-color: #1c1c1c;
 			color: #FFF;

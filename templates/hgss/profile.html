@@ -3,9 +3,10 @@
 
 {%block content%}
   <h1>{{user.username}}</h1>
-  <form action="/profile">
+  <form action="/profile" method="POST">
+    {% csrf_token %}
     <input type="text" name="poketext" value="">
     <input type="submit" value="Submit">
   </form>
-
+  {{msg}}
 {% endblock %}

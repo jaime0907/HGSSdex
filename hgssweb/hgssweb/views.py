@@ -83,18 +83,18 @@ def postview(request):
             for e in evolist:
                 evotext = e["method"] + " " + e["level"]
                 if e["method"] == "Level":
-                    evotext = "Lv." + e["level"]
+                    evotext = "Level up to lv." + e["level"]
                 if e["method"] == "One level":
                     evotext = "Level up " + e["level"]
                 if e["method"] == "Stone":
                     evotext = "Use a " + e["level"]
                 if e["method"] == "Friendship":
                     evotext = "Level up with high friendship " + e["level"]
-                if e["method"] == "Transfer":
+                if e["method"] == "Trade":
                     if e["level"] != "":
-                        evotext = "Transfer while holding a " + e["level"]
+                        evotext = "Trade while holding a " + e["level"]
                     else:
-                        evotext = "Transfer"
+                        evotext = "Trade"
                 pokes.append({"dex":int(e["dex2"]), "name":e["poke2"], "place":evotext, "method":e["method"], "hg":2, "levelmin":"",
                 "levelmax":"", "probdawn":-1, "probday":-1, "probnight":-1})
 
@@ -131,6 +131,28 @@ def register(request):
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request, 'hgss/profile.html')
+        msg = ""
+        if request.method == "POST":
+            i = 1;
+            pokedex = ""
+            print(len(request.POST['poketext']))
+            if len(request.POST['poketext']) > 493:
+                msg = "Input data must not exceed 493 numbers."
+            else:
+                for c in request.POST['poketext']:
+                    if c != '0' and c != '1':
+                        msg = "Input data must consist of only zeros and ones."
+                        break;
+                    if c == "0":
+                        pokedex += "#" + str(i) + "#"
+                    i = i + 1;
+                for x in range(i, 494):
+                    pokedex += "#" + str(x) + "#"
+                if msg == "":
+                    msg = pokedex
+                    p = Profile.objects.get(user=request.user)
+                    p.pokedex = pokedex
+                    p.save()
+        return render(request, 'hgss/profile.html', {'msg':msg})
     else:
         return HttpResponseRedirect('/accounts/login')
