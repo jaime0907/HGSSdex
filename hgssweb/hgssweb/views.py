@@ -6,12 +6,14 @@ from django.db.models import Q
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 
 def main(request):
     return render(request, 'hgss/main.html')
 
+@csrf_exempt
 def postview(request):
     if request.method == "POST":
         data = json.loads(request.body)
