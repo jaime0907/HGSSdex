@@ -278,6 +278,7 @@ function getPoke(){
 }
 
 
+
 function startScripts(){
 	getHora();
 	getPoke();

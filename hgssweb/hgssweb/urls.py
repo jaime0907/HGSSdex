@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.main, name='main'),
     path('post', views.postview, name='postview'),
     path('catchpoke', views.catchpoke, name='catchpoke'),
+    path('uncatchpoke', views.uncatchpoke, name='uncatchpoke'),
     path('accounts/login', authviews.LoginView.as_view(
             template_name="registration/login.html",
             authentication_form=UserLoginForm
@@ -32,4 +33,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register', views.register, name='register'),
     path('profile', views.profile, name='profile'),
+    path("help", views.help, name="help"),
 ]

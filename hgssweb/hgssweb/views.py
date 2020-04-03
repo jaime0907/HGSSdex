@@ -36,10 +36,7 @@ def postview(request):
         evos = Evos.objects.all()
         if request.user.is_authenticated:
             p = Profile.objects.get(user=request.user)
-            pokedex = p.pokedex.split("##")
-            listapoke = []
-            for poke in pokedex:
-                listapoke.append(int(poke.replace("#", "")))
+            listapoke = p.pokedex.split(",")
             locs = locs.filter(dex__in=listapoke)
             evos = evos.filter(dex2__in=listapoke)
         evos = evos.exclude(dex1__exact=0)
@@ -103,14 +100,41 @@ def postview(request):
             pokes = sorted(pokes, key = lambda i: i["dex"])
         return JsonResponse(pokes, safe=False)
 
+def listToPokedex(lista):
+    dex = ""
+    for l in lista:
+        dex += l + ","
+    return dex[:-1]
+
 def catchpoke(request):
     if request.method == "POST" and request.user.is_authenticated:
         data = json.loads(request.body)
         p = Profile.objects.get(user=request.user)
         pokedex = p.pokedex
-        p.pokedex = pokedex.split("#" + str(data['dex']) + "#")[0] + pokedex.split("#" + str(data['dex']) + "#")[1]
+        listapoke = pokedex.split(",")
+        try:
+            listapoke.remove(str(data['dex']))
+        except ValueError:
+            print("Value error al eliminar el pokemon " + str(data['dex']))
+        p.pokedex = listToPokedex(listapoke)
         p.save()
     return HttpResponseRedirect('/')
+
+def uncatchpoke(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        data = json.loads(request.body)
+        p = Profile.objects.get(user=request.user)
+        pokedex = p.pokedex
+        listapoke = pokedex.split(",")
+        try:
+            listapoke.append(str(data['dex']))
+            listapoke.sort()
+        except ValueError:
+            print("Value error al eliminar el pokemon " + str(data['dex']))
+        p.pokedex = listToPokedex(listapoke)
+        p.save()
+    return HttpResponseRedirect('/')
+
 
 def register(request):
     if request.method == 'POST':
@@ -119,7 +143,8 @@ def register(request):
             form.save()
             dexdefault = ""
             for i in range(1, 494):
-                dexdefault += "#" + str(i) + "#"
+                dexdefault += + str(i) + ","
+            dexdefault = dexdefault[:-1]
             p = Profile(user=User.objects.get(username__exact=form.cleaned_data.get('username')), pokedex=dexdefault)
             p.save()
             username = form.cleaned_data.get('username')
@@ -134,9 +159,10 @@ def register(request):
 def profile(request):
     if request.user.is_authenticated:
         msg = ""
+        pokes = []
         if request.method == "POST":
-            i = 1;
-            pokedex = ""
+            i = 1
+            listapokes = []
             print(len(request.POST['poketext']))
             if len(request.POST['poketext']) > 493:
                 msg = "Input data must not exceed 493 numbers."
@@ -144,17 +170,41 @@ def profile(request):
                 for c in request.POST['poketext']:
                     if c != '0' and c != '1':
                         msg = "Input data must consist of only zeros and ones."
-                        break;
+                        break
                     if c == "0":
-                        pokedex += "#" + str(i) + "#"
-                    i = i + 1;
+                        listapokes.append(str(i))
+                    i = i + 1
                 for x in range(i, 494):
-                    pokedex += "#" + str(x) + "#"
+                    listapokes.append(str(x))
                 if msg == "":
-                    msg = pokedex
+                    msg = listToPokedex(listapokes)
                     p = Profile.objects.get(user=request.user)
-                    p.pokedex = pokedex
+                    p.pokedex = listToPokedex(listapokes)
                     p.save()
-        return render(request, 'hgss/profile.html', {'msg':msg})
+        else:
+            p = Profile.objects.get(user=request.user)
+            listapoke = p.pokedex.split(",")
+            i = 1
+            pokes = []
+            listacinco = []
+            for x in range(1,496):
+                if str(x) in listapoke:
+                    haypoke = 0
+                else:
+                    haypoke = 1
+                if(x > 493):
+                    haypoke = 2
+                listacinco.append({'catch':haypoke, 'zerodex':str(x).zfill(3), 'dex':x})
+                if i == 5:
+                    pokes.append(listacinco)
+                    listacinco = []
+                    i = 0
+                i = i + 1
+
+        return render(request, 'hgss/profile.html', {'msg':msg, 'pokes':pokes})
     else:
         return HttpResponseRedirect('/accounts/login')
+
+
+def help(request):
+    return render(request, 'hgss/help.html')

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1 style="font-family:Oswald;">HELP</h1>
+<div style="margin: 0 auto; width:70%; text-align:left;">
+    <p>
+        Welcome to the Gen 4 Dex! This web is a resource to help you in your jorney to catch every Pokémon in Pokémon 
+        Diamond/Pearl/Platinum and HeartGold/SoulSilver.<br>
+        The main page shows a huge table filled with every Pokémon and their location inside the games, along with the level 
+        it appears and how rare it is.<br>
+        In the top you can find the menu bar, which has some filters for the data table.<br>
+        The first filter lets you choose between showing you the best location for each Pokémon, or every possible location where 
+        it can be obtained. The "best" one is the the place where the Pokémon appears more frecuently.<br>
+        The second one lets you choose the number of results the table will show. It is limited to 100 because higher values would 
+        affect performance<br>
+        The next filters are the game ones. You can activate or deactivate them so the data table only shows Pokémon obtaniable in those games.<br>
+        The Evo one is similar, lets you show or hide evolution info, for those who are just focusing on catching.<br>
+        The rest are links to the login, register and help pages. If you are logged in, your username will appear instead. Clicking it 
+        will take you to your profile page, where you can view and update your Pokédex info<br><br>
+        The big text box lets you filter either by name, or by number. The number filter is a "greater than" filter, so if you type 120 
+        you'll get every Pokémon avaliable from #120 onwards.
+        Registration is not needed for using the app, but it lets you save a personal Pokédex, so the Pokémon you already caught 
+        won't appear on the data table.<br>
+        In order to register a Pokémon you can click its name on the data table, or register it on your profile page.<br><br>
+        Done by <a href="http://twitter.com/jaime0907">@jaime0907</a>
+    </p>
+</divstyle="margin: 0 auto; width:500px">
+
+
+{% endblock %}
