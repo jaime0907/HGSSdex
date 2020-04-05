@@ -141,7 +141,7 @@ def register(request):
             form.save()
             dexdefault = ""
             for i in range(1, 494):
-                dexdefault += + str(i) + ","
+                dexdefault += str(i) + ","
             dexdefault = dexdefault[:-1]
             p = Profile(user=User.objects.get(username__exact=form.cleaned_data.get('username')), pokedex=dexdefault)
             p.save()
