@@ -82,11 +82,11 @@
           
           {% if p.catch == 0 %}
           <td class='dexentry greyed' onmouseover="hoverDexEntry(this)" onmouseleave="unhoverDexEntry(this)" onclick="clickDexEntry({{p.dex}}, this)">
-            <img src="{% static imgurl %}">
+            <div class="sprite sprite-{{p.zerodex}}MS" style="vertical-align:middle"></div>
           </td>
           {% elif p.catch == 1 %}
           <td class='dexentry' onmouseover="hoverDexEntry(this)" onmouseleave="unhoverDexEntry(this)" onclick="clickDexEntry({{p.dex}}, this)">
-            <img src="{% static imgurl %}">
+            <div class="sprite sprite-{{p.zerodex}}MS" style="vertical-align:middle"></div>
           </td>
           {% endif %}
           {% endwith %}

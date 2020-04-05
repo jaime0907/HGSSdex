@@ -100,7 +100,7 @@
 					{% for l in locations %}
 						<tr>
 							{% with "pokes/"|addstr:l.dex|addstr:"MS.png" as imgurl %}
-							<td><img src="{% static imgurl %}"></td>
+							<td><div class="sprite sprite-{{l.dex}}MS" style="vertical-align:middle"></div></td>
 							{% endwith %}
 							<td class="name">{{l.name}}</td>
 							<td>{{l.place}}</td>

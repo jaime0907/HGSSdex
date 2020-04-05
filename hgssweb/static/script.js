@@ -110,7 +110,8 @@ function addRowPoke(poke, lastpoke){
 	dex.innerHTML = FormatNumberLength(poke.dex, 3);
 
 	var name = row.insertCell(1);
-	name.innerHTML = '<img src=\"static/pokes/' + FormatNumberLength(poke.dex, 3) + 'MS.png\" style="vertical-align:middle"> ' + poke.name;
+	/*name.innerHTML = '<img src=\"static/pokes/' + FormatNumberLength(poke.dex, 3) + 'MS.png\" style="vertical-align:middle"> ' + poke.name;*/
+	name.innerHTML = '<div class=\"sprite sprite-' + FormatNumberLength(poke.dex, 3) + 'MS\" style="vertical-align:middle"></div> ' + poke.name;
 	name.style.textAlign = "left";
 	name.style.cursor = "pointer";
 	name.onmouseover = function(){
