@@ -73,10 +73,6 @@ def postview(request):
         else:
             pokes = list(locs.values())
 
-        if limitON:
-            pokes = pokes[0:limit]
-            if(len(pokes) > 0):
-                evos = evos.filter(dex2__lte=pokes[-1]["dex"])
         if data['evo']:
             evolist=list(evos.values())
             for e in evolist:
@@ -98,6 +94,8 @@ def postview(request):
                 "levelmax":"", "probdawn":-1, "probday":-1, "probnight":-1})
 
             pokes = sorted(pokes, key = lambda i: i["dex"])
+            if limitON:
+                pokes = pokes[:limit]
         return JsonResponse(pokes, safe=False)
 
 def listToPokedex(lista):
