@@ -1,4 +1,4 @@
-# HGSSdex
+# HGSSdex - Gen4Dex
 Página web que ofrece una lista de Pokémon interactiva para los juegos de la 4º generación.
 
 El backend está basado en Django/Python con una base de datos MySQL.
