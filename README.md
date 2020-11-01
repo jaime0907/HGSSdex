@@ -1,4 +1,7 @@
 # HGSSdex - Gen4Dex
+
+### ATENCIÓN: Una versión más actualizada y optimizada, basada sobre Node.js en lugar de Django, está disponible en el siguiente repositorio: [gen4dex_node](https://github.com/jaime0907/gen4dex_node)
+
 Página web que ofrece una lista de Pokémon interactiva para los juegos de la 4º generación.
 
 El backend está basado en Django/Python con una base de datos MySQL.
